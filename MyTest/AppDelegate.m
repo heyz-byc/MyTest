@@ -4,11 +4,21 @@
 //
 //  Created by Heyz赫兹 on 15/10/10.
 //  Copyright © 2015年 Heyz赫兹. All rights reserved.
-//
+///Users/heyz1/Desktop/LeanMessageDemo
 
 #import "AppDelegate.h"
-
+#import "ViewController.h"
+#import "ActivityView.h"
+#import "ChatView.h"
+#import "ScheduleView.h"
+#import "MessageVIew.h"
+#import "PersonView.h"
+#import "ChatContent.h"
+#import "DetailActivityView.h"
+#define AppID @"Ygyg3RclwgWadDivtgE6SQrv"
+#define AppKey @"k5bzTQMCIEzYlywwUo3Rqo8B"
 @interface AppDelegate ()
+@property(retain,nonatomic) AVIMClient *client;
 
 @end
 
@@ -16,8 +26,33 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
+    [AVOSCloud setApplicationId:AppID clientKey:AppKey];
+    //DetailActivityView *dd=[[DetailActivityView alloc]init];
+    //self.window.rootViewController=dd;
+//    ChatContent *chat=[ChatContent new];
+//    self.window.rootViewController=chat;
+    AVUser *currentUser = [AVUser currentUser];
+    if (currentUser != nil) {
+        NSLog(@"%@",currentUser.username);
+        ActivityView *av = [[ActivityView alloc]init];
+        av.tabBarItem.title=@"活动";
+        ChatView *cv = [[ChatView alloc]init];
+        cv.tabBarItem.title=@"聊天";
+        cv.tabBarItem.badgeValue=@"3";
+        ScheduleView *sv = [[ScheduleView alloc]init];
+        sv.tabBarItem.title=@"日程";
+        MessageVIew *mv = [[MessageVIew alloc]init];
+        mv.tabBarItem.title=@"消息";
+        mv.tabBarItem.badgeValue=@"3";
+        PersonView *pv = [[PersonView alloc]init];
+        pv.tabBarItem.title=@"个人";
+        UITabBarController *tab = [[UITabBarController alloc]init];
+        tab.viewControllers=@[av,cv,sv,mv,pv];
+        self.window.rootViewController=tab;
+    }
+    
+        
+     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
